@@ -1,0 +1,22 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24"
+    android:tint="?attr/text_color">
+
+    <!-- Main horizontal bar -->
+    <path
+        android:fillColor="@android:color/white"
+        android:pathData="M 2,11 H 22 V 13 H 2 Z" />
+
+    <!-- Left small vertical bar -->
+    <path
+        android:fillColor="@android:color/white"
+        android:pathData="M 2,8 H 4 V 11 H 2 Z" />
+
+    <!-- Right small vertical bar -->
+    <path
+        android:fillColor="@android:color/white"
+        android:pathData="M 20,8 H 22 V 11 H 20 Z" />
+</vector>

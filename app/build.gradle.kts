@@ -9,12 +9,11 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.darkempire78.opencalculator"
-        resourceConfigurations += listOf("ar", "az", "be", "bn", "bs", "cs", "de", "el", "es", "fa", "fr", "hi", "hr", "hu", "in", "it", "ja", "kn", "mk", "ml", "nb-rNO", "nl", "or", "pl", "pt-rBR", "ro", "ru", "sat", "sr", "sv", "tr", "uk", "vi", "zh-rCN", "zh-rHK", "zh-rTW")
+        applicationId = "com.fmmagalhaes.chordcalculator"
         minSdk = 21
         targetSdk = 34
-        versionCode = 47
-        versionName = "3.1.0-beta1"
+        versionCode = 1
+        versionName = "1.0.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

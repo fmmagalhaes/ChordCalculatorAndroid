@@ -1,5 +1,6 @@
 package com.darkempire78.opencalculator.calculator
 
+import com.fmmagalhaes.chordcalculator.ChordExpressionEvaluator
 import java.math.BigDecimal
 import java.math.BigInteger
 import java.math.MathContext
@@ -46,6 +47,19 @@ class Calculator(
                 }
                 factorial.toBigDecimal()
             } else gammaLanczos(number + BigDecimal.ONE)
+        }
+    }
+
+    fun evaluateChordsExpression(equation: String): String {
+        println("[Chords] Equation: $equation")
+        try {
+            val result = ChordExpressionEvaluator().evaluateExpression(equation)
+            println("[Chords] Result: $equation = $result")
+            return result
+        } catch (e: Exception) {
+            println("[Chords] Error: $e")
+            syntax_error = true
+            return ""
         }
     }
 

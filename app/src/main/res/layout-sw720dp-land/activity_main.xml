@@ -146,56 +146,53 @@
                     android:layout_marginBottom="1dp">
 
                     <Button
-                        android:id="@+id/squareButton"
+                        android:id="@+id/minorButton"
                         style="@style/CalculatorButton.Function"
-                        android:contentDescription="@string/squareDesc"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_margin="0dp"
                         android:layout_weight="1"
-                        android:onClick="squareButton"
-                        android:text="@string/square"
+                        android:onClick="keyDigitPadMappingToDisplay"
+                        android:text="@string/symbol_minor"
                         android:textSize="@dimen/button_text_size"/>
 
                     <Button
-                        android:id="@+id/piButton"
+                        android:id="@+id/majorButton"
                         style="@style/CalculatorButton.Function"
-                        android:contentDescription="@string/piDesc"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_margin="0dp"
                         android:layout_weight="1"
-                        android:onClick="piButton"
-                        android:text="@string/pi"
+                        android:onClick="keyDigitPadMappingToDisplay"
+                        android:text="@string/symbol_major"
                         android:textSize="@dimen/button_text_size"/>
 
                     <Button
-                        android:id="@+id/divideBy100Button"
+                        android:id="@+id/augmentedButton"
                         style="@style/CalculatorButton.Function"
-                        android:contentDescription="@string/percentDesc"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_margin="0dp"
                         android:layout_weight="1"
-                        android:onClick="percent"
-                        android:text="@string/percent"
+                        android:onClick="keyDigitPadMappingToDisplay"
+                        android:text="@string/symbol_augmented"
                         android:textSize="@dimen/button_text_size"/>
 
                     <Button
-                        android:id="@+id/factorialButton"
+                        android:id="@+id/diminishedButton"
                         style="@style/CalculatorButton.Function"
-                        android:contentDescription="@string/factorialDesc"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_margin="0dp"
                         android:layout_weight="1"
-                        android:onClick="factorialButton"
-                        android:text="@string/factorial"/>
+                        android:onClick="keyDigitPadMappingToDisplay"
+                        android:text="@string/symbol_diminished"
+                        android:textSize="@dimen/button_text_size"/>
 
                     <ImageButton
+                        android:visibility="gone"
                         android:id="@+id/scientistModeSwitchButton"
                         style="@style/Widget.AppCompat.Button.Borderless"
-                        android:contentDescription="@string/scientificModeSwitchDesc"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_margin="0dp"
@@ -216,56 +213,41 @@
                     android:id="@+id/scientistModeRow2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:visibility="gone"
-                    tools:visibility="visible">
+                    android:visibility="visible"
+                    tools:visibility="visible"
+                    android:layout_weight="0">
 
                     <Button
-                        android:id="@+id/degreeButton"
+                        android:id="@+id/addedButton"
                         style="@style/CalculatorButton.Function"
-                        android:contentDescription="@string/degreeDesc"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_margin="0dp"
                         android:layout_weight="1"
-                        android:onClick="degreeButton"
-                        android:text="@string/degree"
-                        android:textSize="@dimen/button_text_size" />
-
-                    <Button
-                        android:id="@+id/sineButton"
-                        style="@style/CalculatorButton.Function"
-                        android:contentDescription="@string/sineDesc"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_margin="0dp"
-                        android:layout_weight="1"
-                        android:onClick="sineButton"
-                        android:text="@string/sine"
+                        android:onClick="keyDigitPadMappingToDisplay"
+                        android:text="@string/symbol_added"
                         android:textSize="@dimen/button_text_size"/>
 
                     <Button
-                        android:id="@+id/cosineButton"
+                        android:id="@+id/suspendededButton"
                         style="@style/CalculatorButton.Function"
-                        android:contentDescription="@string/cosineDesc"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_margin="0dp"
                         android:layout_weight="1"
-                        android:onClick="cosineButton"
-                        android:text="@string/cosine"
+                        android:onClick="keyDigitPadMappingToDisplay"
+                        android:text="@string/symbol_suspended"
                         android:textSize="@dimen/button_text_size"/>
 
                     <Button
-                        android:id="@+id/tangentButton"
+                        android:id="@+id/slashButton"
                         style="@style/CalculatorButton.Function"
-                        android:contentDescription="@string/tangentDesc"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_margin="0dp"
                         android:layout_weight="1"
-                        android:onClick="tangentButton"
-                        android:text="@string/tangent"
+                        android:onClick="keyDigitPadMappingToDisplay"
+                        android:text="@string/symbol_slash"
                         android:textSize="@dimen/button_text_size"/>
 
                     <Space
@@ -273,7 +255,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_margin="0dp"
-                        android:layout_weight="0.6" />
+                        android:layout_weight="1" />
 
                 </TableRow>
 
@@ -281,9 +263,9 @@
                     android:id="@+id/scientistModeRow3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="3"
+                    android:layout_weight="0"
                     android:visibility="gone"
-                    tools:visibility="visible">
+                    tools:visibility="gone">
 
                     <Button
                         android:id="@+id/invButton"
@@ -342,275 +324,319 @@
 
                 </TableRow>
 
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="3">
-
-                    <Button
-                        android:id="@+id/clearButton"
-                        style="@style/CalculatorButton.Small"
-                        android:contentDescription="@string/clearDesc"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginHorizontal="5dp"
-                        android:layout_marginVertical="7dp"
-                        android:layout_weight="1"
-                        android:backgroundTint="?attr/button_clear_color"
-                        android:onClick="clearButton"
-                        android:text="@string/clear"
-                        android:textSize="@dimen/button_text_size" />
-
-                    <Button
-                        android:id="@+id/parenthesesButton"
-                        style="@style/CalculatorButton.Small"
-                        android:contentDescription="@string/parenthesesDesc"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:backgroundTint="?attr/button_symbol_color"
-                        android:onClick="parenthesesButton"
-                        android:text= "@string/parentheses"
-                        android:textSize="@dimen/button_text_size"/>
-
-                    <Button
-                        android:id="@+id/leftParenthesisButton"
-                        style="@style/CalculatorButton"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:backgroundTint="?attr/button_symbol_color"
-                        android:onClick="leftParenthesisButton"
-                        android:text="@string/leftParenthesis"
-                        android:textSize="@dimen/button_text_size"
-                        android:visibility="gone" />
-
-                    <Button
-                        android:id="@+id/rightParenthesisButton"
-                        style="@style/CalculatorButton"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:backgroundTint="?attr/button_symbol_color"
-                        android:onClick="rightParenthesisButton"
-                        android:text="@string/rightParenthesis"
-                        android:textSize="@dimen/button_text_size"
-                        android:visibility="gone" />
-
-                    <ImageButton
-                        android:id="@+id/exponentButton"
-                        style="@style/CalculatorButton.Small"
-                        android:contentDescription="@string/exponentDesc"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:backgroundTint="?attr/button_symbol_color"
-                        android:onClick="exponentButton"
-                        app:srcCompat="@drawable/exponent" />
-
-                    <Button
-                        android:id="@+id/divideButton"
-                        style="@style/CalculatorButton.Small"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:backgroundTint="?attr/button_symbol_color"
-                        android:onClick="divideButton"
-                        app:srcCompat="@drawable/divide"
-                        android:text="@string/divide"/>
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="3">
-
-                    <Button
-                        android:id="@+id/sevenButton"
-                        style="@style/CalculatorButton.Small"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:onClick="keyDigitPadMappingToDisplay"
-                        android:text="@string/seven"
-                        android:textSize="@dimen/button_text_size"/>
-
-                    <Button
-                        android:id="@+id/eightButton"
-                        style="@style/CalculatorButton.Small"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:onClick="keyDigitPadMappingToDisplay"
-                        android:text="@string/eight"
-                        android:textSize="@dimen/button_text_size"/>
-
-                    <Button
-                        android:id="@+id/nineButton"
-                        style="@style/CalculatorButton.Small"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:onClick="keyDigitPadMappingToDisplay"
-                        android:text="@string/nine"
-                        android:textSize="@dimen/button_text_size"/>
-
-                    <Button
-                        android:id="@+id/multiplyButton"
-                        style="@style/CalculatorButton.Small"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:backgroundTint="?attr/button_symbol_color"
-                        android:onClick="multiplyButton"
-                        app:srcCompat="@drawable/multiply"
-                        android:text="@string/multiply"/>
-                </TableRow>
-
-                <TableRow
+                <GridLayout
+                    android:id="@+id/outerGridLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="3">
+                    android:columnCount="4"
+                    android:rowCount="4"
+                    android:layout_weight="0"
+                    android:useDefaultMargins="false"
+                    android:alignmentMode="alignBounds">
 
-                    <Button
-                        android:id="@+id/fourButton"
-                        style="@style/CalculatorButton.Small"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:onClick="keyDigitPadMappingToDisplay"
-                        android:text="@string/four"
-                        android:textSize="@dimen/button_text_size"/>
+                    <!-- 4x3 Grid -->
+                    <GridLayout
+                        android:id="@+id/leftGridLayoutNumbers"
+                        android:alignmentMode="alignMargins"
+                        android:columnCount="3"
+                        android:rowCount="4"
+                        android:layout_columnWeight="3"
+                        android:layout_rowWeight="4"
+                        android:useDefaultMargins="true">
 
-                    <Button
-                        android:id="@+id/fiveButton"
-                        style="@style/CalculatorButton.Small"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:onClick="keyDigitPadMappingToDisplay"
-                        android:text="@string/five"
-                        android:textSize="@dimen/button_text_size"/>
+                        <Button
+                            android:id="@+id/sevenButton"
+                            style="@style/CalculatorButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:onClick="keyDigitPadMappingToDisplay"
+                            android:text="@string/seven"
+                            android:textSize="@dimen/button_text_size" />
 
-                    <Button
-                        android:id="@+id/sixButton"
-                        style="@style/CalculatorButton.Small"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@drawable/circle"
-                        android:onClick="keyDigitPadMappingToDisplay"
-                        android:text="@string/six"
-                        android:textSize="@dimen/button_text_size"/>
+                        <Button
+                            android:id="@+id/eightButton"
+                            style="@style/CalculatorButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:onClick="keyDigitPadMappingToDisplay"
+                            android:text="@string/eight"
+                            android:textSize="@dimen/button_text_size" />
 
-                    <Button
-                        android:id="@+id/subtractButton"
-                        style="@style/CalculatorButton.Small"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:backgroundTint="?attr/button_symbol_color"
-                        android:onClick="subtractButton"
-                        app:srcCompat="@drawable/subtract"
-                        android:text="@string/subtract"/>
-                </TableRow>
+                        <Button
+                            android:id="@+id/nineButton"
+                            style="@style/CalculatorButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:onClick="keyDigitPadMappingToDisplay"
+                            android:text="@string/nine"
+                            android:textSize="@dimen/button_text_size" />
 
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3">
+                        <Button
+                            android:id="@+id/fourButton"
+                            style="@style/CalculatorButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:onClick="keyDigitPadMappingToDisplay"
+                            android:text="@string/four"
+                            android:textSize="@dimen/button_text_size" />
 
-                    <Button
-                        android:id="@+id/oneButton"
-                        style="@style/CalculatorButton.Small"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:onClick="keyDigitPadMappingToDisplay"
-                        android:text="@string/one"
-                        android:textSize="@dimen/button_text_size"/>
+                        <Button
+                            android:id="@+id/fiveButton"
+                            style="@style/CalculatorButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:onClick="keyDigitPadMappingToDisplay"
+                            android:text="@string/five"
+                            android:textSize="@dimen/button_text_size" />
 
-                    <Button
-                        android:id="@+id/twoButton"
-                        style="@style/CalculatorButton.Small"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:onClick="keyDigitPadMappingToDisplay"
-                        android:text="@string/two"
-                        android:textSize="@dimen/button_text_size"/>
+                        <Button
+                            android:id="@+id/sixButton"
+                            style="@style/CalculatorButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:onClick="keyDigitPadMappingToDisplay"
+                            android:text="@string/six"
+                            android:textSize="@dimen/button_text_size" />
 
-                    <Button
-                        android:id="@+id/threeButton"
-                        style="@style/CalculatorButton.Small"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:onClick="keyDigitPadMappingToDisplay"
-                        android:text="@string/three"
-                        android:textSize="@dimen/button_text_size"/>
+                        <Button
+                            android:id="@+id/oneButton"
+                            style="@style/CalculatorButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:onClick="keyDigitPadMappingToDisplay"
+                            android:text="@string/one"
+                            android:textSize="@dimen/button_text_size" />
 
-                    <Button
-                        android:id="@+id/addButton"
-                        style="@style/CalculatorButton.Small"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:backgroundTint="?attr/button_symbol_color"
-                        android:onClick="addButton"
-                        app:srcCompat="@drawable/add"
-                        android:textSize="@dimen/button_text_size"
-                        android:text="@string/add" />
-                </TableRow>
+                        <Button
+                            android:id="@+id/twoButton"
+                            style="@style/CalculatorButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:onClick="keyDigitPadMappingToDisplay"
+                            android:text="@string/two"
+                            android:textSize="@dimen/button_text_size" />
 
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3">
+                        <Button
+                            android:id="@+id/threeButton"
+                            style="@style/CalculatorButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:onClick="keyDigitPadMappingToDisplay"
+                            android:text="@string/three"
+                            android:textSize="@dimen/button_text_size" />
 
-                    <Button
-                        android:id="@+id/zeroButton"
-                        style="@style/CalculatorButton.Small"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:onClick="keyDigitPadMappingToDisplay"
-                        android:text="@string/zero"
-                        android:textSize="@dimen/button_text_size"/>
+                        <Button
+                            android:id="@+id/zeroButton"
+                            style="@style/CalculatorButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:onClick="keyDigitPadMappingToDisplay"
+                            android:text="@string/zero"
+                            android:textSize="@dimen/button_text_size" />
 
-                    <ImageButton
-                        android:id="@+id/pointButton"
-                        style="@style/CalculatorButton.Small"
-                        android:contentDescription="@string/pointDesc"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:onClick="pointButton"
-                        app:srcCompat="@drawable/dot"
-                        android:textSize="@dimen/button_text_size" />
+                    </GridLayout>
 
-                    <ImageButton
-                        android:id="@+id/backspaceButton"
-                        style="@style/CalculatorButton.Small"
-                        android:contentDescription="@string/clearDesc"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:onClick="backspaceButton"
-                        app:srcCompat="@drawable/backspace_720dp"
-                        tools:ignore="SpeakableTextPresentCheck" />
+                    <GridLayout
+                        android:id="@+id/leftGridLayoutChords"
+                        android:alignmentMode="alignMargins"
+                        android:columnCount="3"
+                        android:rowCount="4"
+                        android:layout_columnWeight="3"
+                        android:layout_rowWeight="4"
+                        android:useDefaultMargins="true">
 
-                    <Button
-                        android:id="@+id/equalsButton"
-                        style="@style/CalculatorButton.Small"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:backgroundTint="?attr/button_equals_color"
-                        android:onClick="equalsButton"
-                        app:srcCompat="@drawable/equals"
-                        android:text="@string/equals"/>
-                </TableRow>
+                        <Button
+                            android:id="@+id/noteCButton"
+                            style="@style/CalculatorButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:onClick="keyDigitPadMappingToDisplay"
+                            android:text="@string/note_c"
+                            android:textSize="@dimen/button_text_size" />
+
+                        <Button
+                            android:id="@+id/noteDButton"
+                            style="@style/CalculatorButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:onClick="keyDigitPadMappingToDisplay"
+                            android:text="@string/note_d"
+                            android:textSize="@dimen/button_text_size" />
+
+                        <Button
+                            android:id="@+id/noteEButton"
+                            style="@style/CalculatorButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:onClick="keyDigitPadMappingToDisplay"
+                            android:text="@string/note_e"
+                            android:textSize="@dimen/button_text_size" />
+
+                        <Button
+                            android:id="@+id/noteFButton"
+                            style="@style/CalculatorButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:onClick="keyDigitPadMappingToDisplay"
+                            android:text="@string/note_f"
+                            android:textSize="@dimen/button_text_size" />
+
+                        <Button
+                            android:id="@+id/noteGButton"
+                            style="@style/CalculatorButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:onClick="keyDigitPadMappingToDisplay"
+                            android:text="@string/note_g"
+                            android:textSize="@dimen/button_text_size" />
+
+                        <Button
+                            android:id="@+id/noteAButton"
+                            style="@style/CalculatorButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:onClick="keyDigitPadMappingToDisplay"
+                            android:text="@string/note_a"
+                            android:textSize="@dimen/button_text_size" />
+
+                        <Button
+                            android:id="@+id/noteBButton"
+                            style="@style/CalculatorButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:onClick="keyDigitPadMappingToDisplay"
+                            android:text="@string/note_b"
+                            android:textSize="@dimen/button_text_size" />
+
+                        <Button
+                            android:id="@+id/sharpButton"
+                            style="@style/CalculatorButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:onClick="keyDigitPadMappingToDisplay"
+                            android:text="@string/symbol_sharp"
+                            android:textSize="@dimen/button_text_size" />
+
+                        <Button
+                            android:id="@+id/flatButton"
+                            style="@style/CalculatorButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:onClick="keyDigitPadMappingToDisplay"
+                            android:text="@string/symbol_flat"
+                            android:textSize="@dimen/button_text_size" />
+
+                        <ImageButton
+                            android:id="@+id/spaceButton"
+                            style="@style/CalculatorButton"
+                            android:onClick="spaceButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            app:srcCompat="@drawable/space" />
+
+                    </GridLayout>
+
+                    <!-- 4x1 Grid -->
+                    <GridLayout
+                        android:visibility="visible"
+                        android:id="@+id/gridLayout"
+                        android:alignmentMode="alignMargins"
+                        android:columnCount="1"
+                        android:rowCount="4"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="4"
+                        android:useDefaultMargins="true">
+
+                        <ImageButton
+                            android:id="@+id/backspaceButton"
+                            style="@style/CalculatorButton"
+                            android:backgroundTint="?attr/button_clear_color"
+                            android:onClick="backspaceButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            app:srcCompat="@drawable/backspace" />
+
+                        <Button
+                            android:id="@+id/addButton"
+                            style="@style/CalculatorButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:backgroundTint="?attr/button_symbol_color"
+                            android:onClick="addButton"
+                            android:text="@string/add"
+                            android:textSize="@dimen/button_text_size" />
+
+                        <Button
+                            android:id="@+id/subtractButton"
+                            style="@style/CalculatorButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:backgroundTint="?attr/button_symbol_color"
+                            android:onClick="subtractButton"
+                            android:text="@string/subtract"
+                            android:textSize="@dimen/button_text_size" />
+
+                        <Button
+                            android:id="@+id/equalButton"
+                            style="@style/CalculatorButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:backgroundTint="?attr/button_equals_color"
+                            android:onClick="equalsButton"
+                            android:text="@string/equals"
+                            android:textSize="@dimen/button_text_size" />
+                    </GridLayout>
+
+                </GridLayout>
+
             </TableLayout>
 
 
@@ -674,7 +700,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.26" />
+        app:layout_constraintGuide_percent="0.40" />
 
     <!--<View
         android:id="@+id/separator"

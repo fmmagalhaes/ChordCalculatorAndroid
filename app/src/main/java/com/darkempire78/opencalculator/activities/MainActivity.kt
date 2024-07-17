@@ -5,17 +5,21 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.TypedValue
 import android.view.HapticFeedbackConstants
 import android.view.MenuItem
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.accessibility.AccessibilityEvent
 import android.widget.Button
-import android.widget.EditText
 import android.widget.HorizontalScrollView
 import android.widget.Toast
 import androidx.activity.addCallback
@@ -48,8 +52,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.math.BigDecimal
 import java.math.RoundingMode
-import java.text.DecimalFormatSymbols
-import java.util.*
+import java.util.Locale
+import java.util.UUID
 
 
 var appLanguage: Locale = Locale.getDefault()
@@ -58,10 +62,10 @@ var currentTheme: Int = 0
 class MainActivity : AppCompatActivity() {
     private lateinit var view: View
 
-    private val decimalSeparatorSymbol =
-        DecimalFormatSymbols.getInstance().decimalSeparator.toString()
-    private val groupingSeparatorSymbol =
-        DecimalFormatSymbols.getInstance().groupingSeparator.toString()
+    private val decimalSeparatorSymbol = " "
+        // DecimalFormatSymbols.getInstance().decimalSeparator.toString()
+    private val groupingSeparatorSymbol = " "
+        // DecimalFormatSymbols.getInstance().groupingSeparator.toString()
 
     private var isInvButtonClicked = false
     private var isEqualLastAction = false
@@ -72,6 +76,7 @@ class MainActivity : AppCompatActivity() {
     private var lastHistoryElementId = ""
 
     private var calculationResult = BigDecimal.ZERO
+    private var chordsCalculationResult = "";
 
     private lateinit var itemTouchHelper: ItemTouchHelper
 
@@ -104,12 +109,6 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-        // Long click to view popup options for double and triple zeroes
-        binding.zeroButton.setOnLongClickListener {
-            showPopupMenu(binding.zeroButton)
-            true
-        }
-
         // Set default animations and disable the fade out default animation
         // https://stackoverflow.com/questions/19943466/android-animatelayoutchanges-true-what-can-i-do-if-the-fade-out-effect-is-un
         val lt = LayoutTransition()
@@ -117,7 +116,7 @@ class MainActivity : AppCompatActivity() {
         binding.tableLayout.layoutTransition = lt
 
         // Set decimalSeparator
-        binding.pointButton.setImageResource(if (decimalSeparatorSymbol == ",") R.drawable.comma else R.drawable.dot)
+        // binding.pointButton.setImageResource(if (decimalSeparatorSymbol == ",") R.drawable.comma else R.drawable.dot)
 
         // Set history
         historyLayoutMgr = LinearLayoutManager(
@@ -258,7 +257,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                updateResultDisplay()
+                updateResultDisplayChordsMode()
                 textSizeAdjuster.adjustTextSize(binding.input,
                     TextSizeAdjuster.AdjustableTextType.Input
                 )
@@ -296,27 +295,6 @@ class MainActivity : AppCompatActivity() {
                 finish()
             }
         }
-
-    }
-
-    // Displays a popup menu with options to insert double zeros ("00") or triple zeros ("000") into the specified EditText when the zero button is long-pressed.
-    private fun showPopupMenu(zeroButton: Button) {
-        val popupMenu = PopupMenu(this, zeroButton)
-        popupMenu.menuInflater.inflate(R.menu.popup_menu_zero, popupMenu.menu)
-        popupMenu.setOnMenuItemClickListener { menuItem: MenuItem ->
-            when (menuItem.itemId) {
-                R.id.option_double_zero -> {
-                    updateDisplay(view, "00")
-                    true
-                }
-                R.id.option_triple_zero -> {
-                    updateDisplay(view, "000")
-                    true
-                }
-                else -> false
-            }
-        }
-        popupMenu.show()
 
     }
 
@@ -368,6 +346,15 @@ class MainActivity : AppCompatActivity() {
     fun openSettings(menuItem: MenuItem) {
         val intent = Intent(this, SettingsActivity::class.java)
         startActivity(intent, null)
+    }
+
+    fun openHowto(menuItem: MenuItem) {
+        val intent = Intent(this, HowtoActivity::class.java)
+        startActivity(intent, null)
+    }
+
+    fun chooseTheme(menuItem: MenuItem) {
+        Themes.openDialogThemeSelector(this)
     }
 
     fun clearHistory(menuItem: MenuItem) {
@@ -524,30 +511,59 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun enableOrDisableScientistMode() {
-        if (binding.scientistModeRow2.visibility != View.VISIBLE) {
-            binding.scientistModeRow2.visibility = View.VISIBLE
-            binding.scientistModeRow3.visibility = View.VISIBLE
+        if (binding.scientistModeRow2?.visibility != View.VISIBLE) {
+            binding.scientistModeRow2?.visibility = View.VISIBLE
+            // binding.scientistModeRow3?.visibility = View.VISIBLE
             binding.scientistModeSwitchButton?.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24)
             binding.degreeTextView.visibility = View.VISIBLE
-            binding.degreeTextView.text = binding.degreeButton.text.toString()
+            binding.degreeTextView.text = binding.degreeButton?.text.toString()
         } else {
-            binding.scientistModeRow2.visibility = View.GONE
-            binding.scientistModeRow3.visibility = View.GONE
+            binding.scientistModeRow2?.visibility = View.GONE
+            // binding.scientistModeRow3?.visibility = View.GONE
             binding.scientistModeSwitchButton?.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24)
             binding.degreeTextView.visibility = View.GONE
-            binding.degreeTextView.text = binding.degreeButton.text.toString()
+            binding.degreeTextView.text = binding.degreeButton?.text.toString()
         }
     }
 
     // Switch between degree and radian mode
     private fun toggleDegreeMode() {
-        if (isDegreeModeActivated) binding.degreeButton.text = getString(R.string.radian)
-        else binding.degreeButton.text = getString(R.string.degree)
+        if (isDegreeModeActivated) binding.degreeButton?.text = getString(R.string.radian)
+        else binding.degreeButton?.text = getString(R.string.degree)
 
-        binding.degreeTextView.text = binding.degreeButton.text
+        binding.degreeTextView.text = binding.degreeButton?.text
 
         // Flip the variable afterwards
         isDegreeModeActivated = !isDegreeModeActivated
+    }
+
+    private fun updateResultDisplayChordsMode() {
+        lifecycleScope.launch(Dispatchers.Default) {
+            // Reset text color
+            setErrorColor(false)
+
+            // replacing spaces because of the number grouping separator, which is a space
+            val calculation = binding.input.text.toString()
+            println("[Chords] $calculation")
+            if (calculation != "") {
+                syntax_error = false
+
+                chordsCalculationResult =
+                    Calculator(MyPreferences(this@MainActivity).numberPrecision!!.toInt()).evaluateChordsExpression(calculation)
+
+                withContext(Dispatchers.Main) {
+                    if (chordsCalculationResult != calculation) {
+                        binding.resultDisplay.text = chordsCalculationResult
+                    } else {
+                        binding.resultDisplay.text = ""
+                    }
+                }
+            } else {
+                withContext(Dispatchers.Main) {
+                    binding.resultDisplay.text = ""
+                }
+            }
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -886,27 +902,27 @@ class MainActivity : AppCompatActivity() {
             isInvButtonClicked = true
 
             // change buttons
-            binding.sineButton.setText(R.string.sineInv)
-            binding.cosineButton.setText(R.string.cosineInv)
-            binding.tangentButton.setText(R.string.tangentInv)
-            binding.naturalLogarithmButton.setText(R.string.naturalLogarithmInv)
-            binding.logarithmButton.setText(R.string.logarithmInv)
+            binding.sineButton?.setText(R.string.sineInv)
+            binding.cosineButton?.setText(R.string.cosineInv)
+            binding.tangentButton?.setText(R.string.tangentInv)
+            binding.naturalLogarithmButton?.setText(R.string.naturalLogarithmInv)
+            binding.logarithmButton?.setText(R.string.logarithmInv)
             if (MyPreferences(this).addModuloButton) {
-                binding.squareButton.setText(R.string.squareInvModuloVersion)
+                binding.squareButton?.setText(R.string.squareInvModuloVersion)
             } else {
-                binding.squareButton.setText(R.string.squareInv)
+                binding.squareButton?.setText(R.string.squareInv)
             }
 
         } else {
             isInvButtonClicked = false
 
             // change buttons
-            binding.sineButton.setText(R.string.sine)
-            binding.cosineButton.setText(R.string.cosine)
-            binding.tangentButton.setText(R.string.tangent)
-            binding.naturalLogarithmButton.setText(R.string.naturalLogarithm)
-            binding.logarithmButton.setText(R.string.logarithm)
-            binding.squareButton.setText(R.string.square)
+            binding.sineButton?.setText(R.string.sine)
+            binding.cosineButton?.setText(R.string.cosine)
+            binding.tangentButton?.setText(R.string.tangent)
+            binding.naturalLogarithmButton?.setText(R.string.naturalLogarithm)
+            binding.logarithmButton?.setText(R.string.logarithm)
+            binding.squareButton?.setText(R.string.square)
         }
     }
 
@@ -915,6 +931,18 @@ class MainActivity : AppCompatActivity() {
         binding.input.setText("")
         binding.resultDisplay.text = ""
         isStillTheSameCalculation_autoSaveCalculationWithoutEqualOption = false
+    }
+
+    fun switchToChordsButton(view: View) {
+        keyVibration(view)
+        binding.leftGridLayoutNumbers?.visibility = GONE
+        binding.leftGridLayoutChords?.visibility = VISIBLE
+    }
+
+    fun switchToNumbersButton(view: View) {
+        keyVibration(view)
+        binding.leftGridLayoutChords?.visibility = GONE
+        binding.leftGridLayoutNumbers?.visibility = VISIBLE
     }
 
     @SuppressLint("SetTextI18n")
@@ -926,7 +954,8 @@ class MainActivity : AppCompatActivity() {
 
             if (calculation != "") {
 
-                val resultString = calculationResult.toString()
+                // val resultString = calculationResult.toString()
+                val resultString = chordsCalculationResult
                 var formattedResult = NumberFormatter.format(
                     resultString.replace(".", decimalSeparatorSymbol),
                     decimalSeparatorSymbol,
@@ -970,7 +999,11 @@ class MainActivity : AppCompatActivity() {
                         binding.input.isCursorVisible = false
 
                         // Clear resultDisplay
-                        binding.resultDisplay.text = ""
+                        // [Chords] No need to clear, because every equation produces a new result
+                        // when pressing equals, unlike a number equation
+                        // e.g. CEG = C = CEG = C = CEG etc
+                        // different from 1x2 = 2, period
+                        // binding.resultDisplay.text = ""
                     }
 
                     if (calculation != formattedResult) {
@@ -1020,12 +1053,14 @@ class MainActivity : AppCompatActivity() {
                             }
                         }
                     }
-                    isEqualLastAction = true
+                    // isEqualLastAction = true
+                    // [Chords] this variable is used to start writing from scratch after when press equal
+                    // In the Chord Calculator, we'll not use this behavior
                 } else {
                     withContext(Dispatchers.Main) {
                         if (syntax_error) {
                             setErrorColor(true)
-                            binding.resultDisplay.text = getString(R.string.syntax_error)
+                            // binding.resultDisplay.text = getString(R.string.syntax_error)
                         } else if (domain_error) {
                             setErrorColor(true)
                             binding.resultDisplay.text = getString(R.string.domain_error)
@@ -1097,6 +1132,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun spaceButton(view: View) {
+        updateDisplay(view, " ")
+    }
+
     fun backspaceButton(view: View) {
         keyVibration(view)
 
@@ -1114,7 +1153,7 @@ class MainActivity : AppCompatActivity() {
         if (cursorPosition != 0 && textLength != 0) {
             // Check if it is a function to delete
             val functionsList =
-                listOf("cos⁻¹(", "sin⁻¹(", "tan⁻¹(", "cos(", "sin(", "tan(", "ln(", "log(", "exp(")
+                listOf("cos⁻¹(", "sin⁻¹(", "tan⁻¹(", "cos(", "sin(", "tan(", "ln(", "log(", "exp(", "sus", "aug", "dim", "dom", "add", "min", "Maj", "maj")
             for (function in functionsList) {
                 val leftPart = binding.input.text.subSequence(0, cursorPosition).toString()
                 if (leftPart.endsWith(function)) {
@@ -1130,7 +1169,7 @@ class MainActivity : AppCompatActivity() {
             if (!isFunction) {
                 // remove the grouping separator
                 val leftPart = binding.input.text.subSequence(0, cursorPosition).toString()
-                val leftPartWithoutSpaces = leftPart.replace(groupingSeparatorSymbol, "")
+                val leftPartWithoutSpaces = leftPart //.replace(groupingSeparatorSymbol, "")
                 functionLength = leftPart.length - leftPartWithoutSpaces.length
 
                 newValue = leftPartWithoutSpaces.subSequence(0, leftPartWithoutSpaces.length - 1)
@@ -1192,16 +1231,16 @@ class MainActivity : AppCompatActivity() {
         // Split the parentheses button (if option is enabled)
         if (MyPreferences(this).splitParenthesisButton) {
             // Hide the AC button
-            binding.clearButton.visibility = View.GONE
-            binding.parenthesesButton.visibility = View.GONE
+            binding.clearButton?.visibility = View.GONE
+            binding.parenthesesButton?.visibility = View.GONE
 
             // Display the left & right parenthesis buttons
             binding.leftParenthesisButton?.visibility = View.VISIBLE
             binding.rightParenthesisButton?.visibility = View.VISIBLE
         } else {
             // Display the AC button
-            binding.clearButton.visibility = View.VISIBLE
-            binding.parenthesesButton.visibility = View.VISIBLE
+            binding.clearButton?.visibility = View.VISIBLE
+            binding.parenthesesButton?.visibility = View.VISIBLE
 
             // Hide the left & right parenthesis buttons
             binding.leftParenthesisButton?.visibility = View.GONE
@@ -1238,4 +1277,103 @@ class MainActivity : AppCompatActivity() {
         // Disable the keyboard on display EditText
         binding.input.showSoftInputOnFocus = false
     }
+
+    private fun adjustInputTextSize() {
+        val screenWidth = resources.displayMetrics.widthPixels
+
+        // Text size will be reduced a bit before reaching the screen width, for a smoother experience
+        val maxWidth = screenWidth - dpToPx(20f, this)
+
+        // Get the min and max text sizes for the input
+        val (minInputTextSize, maxInputTextSize) = getInputTextSizes(resources.configuration)
+
+        var inputTextSize = maxInputTextSize
+        binding.input.setTextSize(TypedValue.COMPLEX_UNIT_SP, inputTextSize)
+
+        val textBounds = android.graphics.Rect()
+        val inputText = binding.input.text.toString()
+
+        // Measure the text size and adjust until it fits
+        val paint = binding.input.paint
+        paint.getTextBounds(inputText, 0, inputText.length, textBounds)
+
+        // Reduce the text size until it fits
+        while (textBounds.width() > maxWidth && inputTextSize > minInputTextSize) {
+            inputTextSize -= 1f
+            binding.input.setTextSize(TypedValue.COMPLEX_UNIT_SP, inputTextSize)
+            paint.getTextBounds(inputText, 0, inputText.length, textBounds)
+        }
+    }
+
+    private fun getInputTextSizes(configuration: Configuration): Pair<Float, Float> {
+        val screenSize = configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK
+        val orientation = configuration.orientation
+
+        var maxInputTextSize = 0f
+        var minInputTextSize = 0f
+
+        when (orientation) {
+            Configuration.ORIENTATION_PORTRAIT -> { // Portrait
+                when (screenSize) {
+                    Configuration.SCREENLAYOUT_SIZE_SMALL ->  {
+                        maxInputTextSize = 85f // TODO: Find the right values
+                        minInputTextSize = 35f // TODO: Find the right values
+                    }
+                    Configuration.SCREENLAYOUT_SIZE_NORMAL -> {
+                        maxInputTextSize = 85f
+                        minInputTextSize = 40f
+                    }
+                    Configuration.SCREENLAYOUT_SIZE_LARGE ->  {
+                        maxInputTextSize = 85f // TODO: Find the right values
+                        minInputTextSize = 35f // TODO: Find the right values
+                    }
+                    Configuration.SCREENLAYOUT_SIZE_XLARGE ->  {
+                        maxInputTextSize = 85f // TODO: Find the right values
+                        minInputTextSize = 35f // TODO: Find the right values
+                    }
+                    else ->  { // Set default values
+                        maxInputTextSize = 85f
+                        minInputTextSize = 40f
+                    }
+                }
+            }
+            Configuration.ORIENTATION_LANDSCAPE -> { // Landscape
+                when (screenSize) {
+                    Configuration.SCREENLAYOUT_SIZE_SMALL ->  {
+                        maxInputTextSize = 85f // TODO: Find the right values
+                        minInputTextSize = 35f // TODO: Find the right values
+                    }
+                    Configuration.SCREENLAYOUT_SIZE_NORMAL -> {
+                        maxInputTextSize = 45f
+                        minInputTextSize = 25f
+                    }
+                    Configuration.SCREENLAYOUT_SIZE_LARGE ->  {
+                        maxInputTextSize = 85f // TODO: Find the right values
+                        minInputTextSize = 35f // TODO: Find the right values
+                    }
+                    Configuration.SCREENLAYOUT_SIZE_XLARGE ->  {
+                        maxInputTextSize = 85f // TODO: Find the right values
+                        minInputTextSize = 35f // TODO: Find the right values
+                    }
+                    else ->  {
+                        maxInputTextSize = 45f
+                        minInputTextSize = 25f
+                    }
+                }
+            }
+            Configuration.ORIENTATION_UNDEFINED -> {
+                println("❌ Undefined orientation : screenSize -> $screenSize orientation -> $orientation")
+            }
+            else -> {
+                println("❌ Undefined orientation (else) : screenSize -> $screenSize orientation -> $orientation")
+            }
+        }
+
+        return Pair(minInputTextSize, maxInputTextSize)
+    }
+
+    private fun dpToPx(dp: Float, context: Context): Float {
+        return dp * context.resources.displayMetrics.density
+    }
+
 }

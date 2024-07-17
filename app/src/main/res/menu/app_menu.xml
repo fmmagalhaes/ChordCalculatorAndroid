@@ -6,11 +6,24 @@
         android:onClick="clearHistory" />
 
     <item
+        android:visible="false"
         android:id="@+id/app_menu_settings_button"
         android:title="@string/menu_settings"
         android:onClick="openSettings" />
 
     <item
+        android:id="@+id/app_menu_theme_button"
+        android:title="@string/settings_general_theme"
+        android:onClick="chooseTheme" />
+
+    <item
+        android:visible="true"
+        android:id="@+id/app_menu_howto_button"
+        android:title="@string/menu_howto"
+        android:onClick="openHowto" />
+
+    <item
+        android:visible="false"
         android:id="@+id/app_menu_about_button"
         android:title="@string/menu_about"
         android:onClick="openAbout" />

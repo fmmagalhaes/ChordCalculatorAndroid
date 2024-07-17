@@ -169,11 +169,11 @@ class HistoryAdapter(
 
                 // On click
                 calculation.setOnClickListener {
-                    val formattedCalculation = wrapInParenthesis(historyElement.calculation)
+                    val formattedCalculation = historyElement.calculation
                     onElementClick.invoke(formattedCalculation)
                 }
                 result.setOnClickListener {
-                    val formattedResult = wrapInParenthesis(historyElement.result)
+                    val formattedResult = historyElement.result
                     onElementClick.invoke(formattedResult)
                 }
 

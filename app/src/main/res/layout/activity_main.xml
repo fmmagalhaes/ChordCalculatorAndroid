@@ -44,7 +44,7 @@
             android:text=""
             android:textAlignment="textEnd"
             android:textColor="?attr/text_color"
-            android:textSize="55sp"
+            android:textSize="52sp"
             tools:ignore="RtlCompat" />
 
     </HorizontalScrollView>
@@ -132,11 +132,81 @@
                 android:layout_height="0dp"
                 android:paddingHorizontal="8dp"
                 android:paddingTop="12dp"
-                android:paddingBottom="0dp"
+                android:paddingBottom="12dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TableRow
+                    android:visibility="visible"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="1dp"
+                    android:layout_weight="0">
+
+                    <Button
+                        android:id="@+id/minorButton"
+                        style="@style/CalculatorButton.Function"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="0dp"
+                        android:layout_weight="1"
+                        android:onClick="keyDigitPadMappingToDisplay"
+                        android:text="@string/symbol_minor"
+                        android:textSize="24sp" />
+
+                    <Button
+                        android:id="@+id/majorButton"
+                        style="@style/CalculatorButton.Function"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="0dp"
+                        android:layout_weight="1"
+                        android:onClick="keyDigitPadMappingToDisplay"
+                        android:text="@string/symbol_major"
+                        android:textSize="24sp" />
+
+                    <Button
+                        android:id="@+id/augmentedButton"
+                        style="@style/CalculatorButton.Function"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="0dp"
+                        android:layout_weight="1"
+                        android:onClick="keyDigitPadMappingToDisplay"
+                        android:text="@string/symbol_augmented"
+                        android:textSize="24sp" />
+
+                    <Button
+                        android:id="@+id/diminishedButton"
+                        style="@style/CalculatorButton.Function"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="0dp"
+                        android:layout_weight="1"
+                        android:onClick="keyDigitPadMappingToDisplay"
+                        android:text="@string/symbol_diminished"
+                        android:textSize="24sp" />
+
+                    <ImageButton
+                        android:visibility="gone"
+                        android:id="@+id/scientistModeSwitchButton"
+                        style="@style/Widget.AppCompat.Button.Borderless"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="0dp"
+                        android:layout_weight="0.6"
+                        android:background="@drawable/circle"
+                        android:backgroundTint="?attr/foreground_color"
+                        android:onClick="scientistModeSwitchButton"
+                        android:textAllCaps="false"
+                        android:textColor="?attr/text_color"
+                        android:textSize="24sp"
+                        app:srcCompat="@drawable/ic_baseline_keyboard_arrow_down_24" />
+
+                </TableRow>
+
+                <TableRow
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="1dp"
@@ -152,7 +222,7 @@
                         android:layout_weight="1"
                         android:onClick="squareButton"
                         android:text="@string/square"
-                        android:textSize="26sp" />
+                        android:textSize="24sp" />
 
                     <Button
                         android:id="@+id/piButton"
@@ -164,7 +234,7 @@
                         android:layout_weight="1"
                         android:onClick="piButton"
                         android:text="@string/pi"
-                        android:textSize="26sp" />
+                        android:textSize="24sp" />
 
                     <ImageButton
                         android:id="@+id/exponentButton"
@@ -187,10 +257,9 @@
                         android:layout_weight="1"
                         android:onClick="factorialButton"
                         android:text="@string/factorial"
-                        android:textSize="26sp" />
+                        android:textSize="24sp" />
 
                     <ImageButton
-                        android:id="@+id/scientistModeSwitchButton"
                         style="@style/Widget.AppCompat.Button.Borderless"
                         android:contentDescription="@string/scientificModeSwitchDesc"
                         android:layout_width="0dp"
@@ -202,7 +271,7 @@
                         android:onClick="scientistModeSwitchButton"
                         android:textAllCaps="false"
                         android:textColor="?attr/text_color"
-                        android:textSize="26sp"
+                        android:textSize="24sp"
                         app:srcCompat="@drawable/ic_baseline_keyboard_arrow_down_24" />
 
                 </TableRow>
@@ -211,9 +280,57 @@
                     android:id="@+id/scientistModeRow2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:visibility="gone"
+                    android:layout_weight="0"
+                    android:visibility="visible"
                     tools:visibility="visible">
+
+                    <Button
+                        android:id="@+id/addedButton"
+                        style="@style/CalculatorButton.Function"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="0dp"
+                        android:layout_weight="1"
+                        android:onClick="keyDigitPadMappingToDisplay"
+                        android:text="@string/symbol_added"
+                        android:textSize="24sp" />
+
+                    <Button
+                        android:id="@+id/suspendedButton"
+                        style="@style/CalculatorButton.Function"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="0dp"
+                        android:layout_weight="1"
+                        android:onClick="keyDigitPadMappingToDisplay"
+                        android:text="@string/symbol_suspended"
+                        android:textSize="24sp" />
+
+                    <Button
+                        android:id="@+id/slashButton"
+                        style="@style/CalculatorButton.Function"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="0dp"
+                        android:layout_weight="1"
+                        android:onClick="keyDigitPadMappingToDisplay"
+                        android:text="@string/symbol_slash"
+                        android:textSize="24sp" />
+
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="0dp"
+                        android:layout_weight="1" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:visibility="gone"
+                    tools:visibility="gone">
 
                     <Button
                         android:id="@+id/degreeButton"
@@ -273,9 +390,9 @@
                     android:id="@+id/scientistModeRow3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="0"
                     android:visibility="gone"
-                    tools:visibility="visible">
+                    tools:visibility="gone">
 
                     <Button
                         android:id="@+id/invButton"
@@ -331,6 +448,7 @@
                 </TableRow>
 
                 <TableRow
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="3">
@@ -407,193 +525,344 @@
                         android:textSize="32sp" />
                 </TableRow>
 
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="3">
-
-                    <Button
-                        android:id="@+id/sevenButton"
-                        style="@style/CalculatorButton"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:onClick="keyDigitPadMappingToDisplay"
-                        android:text="@string/seven"
-                        android:textSize="28sp" />
-
-                    <Button
-                        android:id="@+id/eightButton"
-                        style="@style/CalculatorButton"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:onClick="keyDigitPadMappingToDisplay"
-                        android:text="@string/eight"
-                        android:textSize="28sp" />
-
-                    <Button
-                        android:id="@+id/nineButton"
-                        style="@style/CalculatorButton"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:onClick="keyDigitPadMappingToDisplay"
-                        android:text="@string/nine"
-                        android:textSize="28sp" />
-
-                    <Button
-                        android:id="@+id/multiplyButton"
-                        style="@style/CalculatorButton"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:backgroundTint="?attr/button_symbol_color"
-                        android:onClick="multiplyButton"
-                        android:text="@string/multiply"
-                        android:textSize="32sp" />
-                </TableRow>
-
-                <TableRow
+                <GridLayout
+                    android:visibility="visible"
+                    android:id="@+id/outerGridLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="3">
+                    android:columnCount="4"
+                    android:rowCount="4"
+                    android:layout_weight="0"
+                    android:useDefaultMargins="false"
+                    android:alignmentMode="alignBounds">
 
-                    <Button
-                        android:id="@+id/fourButton"
-                        style="@style/CalculatorButton"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:onClick="keyDigitPadMappingToDisplay"
-                        android:text="@string/four"
-                        android:textSize="28sp" />
+                    <!-- 4x3 Grid -->
+                    <GridLayout
+                        android:visibility="visible"
+                        android:id="@+id/leftGridLayoutChords"
+                        android:alignmentMode="alignMargins"
+                        android:columnCount="3"
+                        android:rowCount="4"
+                        android:layout_columnWeight="3"
+                        android:layout_rowWeight="4"
+                        android:useDefaultMargins="true">
 
-                    <Button
-                        android:id="@+id/fiveButton"
-                        style="@style/CalculatorButton"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:onClick="keyDigitPadMappingToDisplay"
-                        android:text="@string/five"
-                        android:textSize="28sp" />
+                        <Button
+                            android:id="@+id/noteCButton"
+                            style="@style/CalculatorButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:onClick="keyDigitPadMappingToDisplay"
+                            android:text="@string/note_c"
+                            android:textSize="28sp" />
 
-                    <Button
-                        android:id="@+id/sixButton"
-                        style="@style/CalculatorButton"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:onClick="keyDigitPadMappingToDisplay"
-                        android:text="@string/six"
-                        android:textSize="28sp" />
+                        <Button
+                            android:id="@+id/noteDButton"
+                            style="@style/CalculatorButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:onClick="keyDigitPadMappingToDisplay"
+                            android:text="@string/note_d"
+                            android:textSize="28sp" />
 
-                    <Button
-                        android:id="@+id/subtractButton"
-                        style="@style/CalculatorButton"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:backgroundTint="?attr/button_symbol_color"
-                        android:onClick="subtractButton"
-                        android:text="@string/subtract"
-                        android:textSize="32sp" />
-                </TableRow>
+                        <Button
+                            android:id="@+id/noteEButton"
+                            style="@style/CalculatorButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:onClick="keyDigitPadMappingToDisplay"
+                            android:text="@string/note_e"
+                            android:textSize="28sp" />
 
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3">
+                        <Button
+                            android:id="@+id/noteFButton"
+                            style="@style/CalculatorButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:onClick="keyDigitPadMappingToDisplay"
+                            android:text="@string/note_f"
+                            android:textSize="28sp" />
 
-                    <Button
-                        android:id="@+id/oneButton"
-                        style="@style/CalculatorButton"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:onClick="keyDigitPadMappingToDisplay"
-                        android:text="@string/one"
-                        android:textSize="28sp" />
+                        <Button
+                            android:id="@+id/noteGButton"
+                            style="@style/CalculatorButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:onClick="keyDigitPadMappingToDisplay"
+                            android:text="@string/note_g"
+                            android:textSize="28sp" />
 
-                    <Button
-                        android:id="@+id/twoButton"
-                        style="@style/CalculatorButton"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:onClick="keyDigitPadMappingToDisplay"
-                        android:text="@string/two"
-                        android:textSize="28sp" />
+                        <Button
+                            android:id="@+id/noteAButton"
+                            style="@style/CalculatorButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:onClick="keyDigitPadMappingToDisplay"
+                            android:text="@string/note_a"
+                            android:textSize="28sp" />
 
-                    <Button
-                        android:id="@+id/threeButton"
-                        style="@style/CalculatorButton"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:onClick="keyDigitPadMappingToDisplay"
-                        android:text="@string/three"
-                        android:textSize="28sp" />
+                        <Button
+                            android:id="@+id/noteBButton"
+                            style="@style/CalculatorButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:onClick="keyDigitPadMappingToDisplay"
+                            android:text="@string/note_b"
+                            android:textSize="28sp" />
 
-                    <Button
-                        android:id="@+id/addButton"
-                        style="@style/CalculatorButton"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:backgroundTint="?attr/button_symbol_color"
-                        android:onClick="addButton"
-                        android:text="@string/add"
-                        android:textSize="32sp" />
-                </TableRow>
+                        <Button
+                            android:id="@+id/sharpButton"
+                            style="@style/CalculatorButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:onClick="keyDigitPadMappingToDisplay"
+                            android:text="@string/symbol_sharp"
+                            android:textSize="28sp" />
 
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3">
+                        <Button
+                            android:id="@+id/flatButton"
+                            style="@style/CalculatorButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:onClick="keyDigitPadMappingToDisplay"
+                            android:text="@string/symbol_flat"
+                            android:textSize="28sp" />
 
-                    <Button
-                        android:id="@+id/zeroButton"
-                        style="@style/CalculatorButton"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:onClick="keyDigitPadMappingToDisplay"
-                        android:text="@string/zero"
-                        android:textSize="28sp" />
+                        <ImageButton
+                            android:id="@+id/spaceButton"
+                            style="@style/CalculatorButton"
+                            android:onClick="spaceButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            app:srcCompat="@drawable/space" />
 
-                    <ImageButton
-                        android:id="@+id/pointButton"
-                        style="@style/CalculatorButton"
-                        android:contentDescription="@string/pointDesc"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:onClick="pointButton" />
+                        <Button
+                            android:id="@+id/switchToNumbersButton"
+                            style="@style/CalculatorButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_columnSpan="2"
+                            android:layout_rowWeight="1"
+                            android:onClick="switchToNumbersButton"
+                            android:text="@string/switch_to_numbers"
+                            android:textSize="28sp" />
+                    </GridLayout>
 
-                    <ImageButton
-                        android:id="@+id/backspaceButton"
-                        style="@style/CalculatorButton"
-                        android:contentDescription="@string/backspaceDesc"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:onClick="backspaceButton"
-                        android:paddingEnd="5dp"
-                        app:srcCompat="@drawable/backspace" />
+                    <GridLayout
+                        android:visibility="gone"
+                        android:id="@+id/leftGridLayoutNumbers"
+                        android:alignmentMode="alignMargins"
+                        android:columnCount="3"
+                        android:rowCount="4"
+                        android:layout_columnWeight="3"
+                        android:layout_rowWeight="4"
+                        android:useDefaultMargins="true">
 
-                    <Button
-                        android:id="@+id/equalsButton"
-                        style="@style/CalculatorButton"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:backgroundTint="?attr/button_equals_color"
-                        android:onClick="equalsButton"
-                        android:text="@string/equals"
-                        android:textSize="32sp" />
-                </TableRow>
+                        <Button
+                            android:id="@+id/sevenButton"
+                            style="@style/CalculatorButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:onClick="keyDigitPadMappingToDisplay"
+                            android:text="@string/seven"
+                            android:textSize="28sp" />
+
+                        <Button
+                            android:id="@+id/eightButton"
+                            style="@style/CalculatorButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:onClick="keyDigitPadMappingToDisplay"
+                            android:text="@string/eight"
+                            android:textSize="28sp" />
+
+                        <Button
+                            android:id="@+id/nineButton"
+                            style="@style/CalculatorButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:onClick="keyDigitPadMappingToDisplay"
+                            android:text="@string/nine"
+                            android:textSize="28sp" />
+
+                        <Button
+                            android:id="@+id/fourButton"
+                            style="@style/CalculatorButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:onClick="keyDigitPadMappingToDisplay"
+                            android:text="@string/four"
+                            android:textSize="28sp" />
+
+                        <Button
+                            android:id="@+id/fiveButton"
+                            style="@style/CalculatorButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:onClick="keyDigitPadMappingToDisplay"
+                            android:text="@string/five"
+                            android:textSize="28sp" />
+
+                        <Button
+                            android:id="@+id/sixButton"
+                            style="@style/CalculatorButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:onClick="keyDigitPadMappingToDisplay"
+                            android:text="@string/six"
+                            android:textSize="28sp" />
+
+                        <Button
+                            android:id="@+id/oneButton"
+                            style="@style/CalculatorButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:onClick="keyDigitPadMappingToDisplay"
+                            android:text="@string/one"
+                            android:textSize="28sp" />
+
+                        <Button
+                            android:id="@+id/twoButton"
+                            style="@style/CalculatorButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:onClick="keyDigitPadMappingToDisplay"
+                            android:text="@string/two"
+                            android:textSize="28sp" />
+
+                        <Button
+                            android:id="@+id/threeButton"
+                            style="@style/CalculatorButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:onClick="keyDigitPadMappingToDisplay"
+                            android:text="@string/three"
+                            android:textSize="28sp" />
+
+                        <Button
+                            android:id="@+id/zeroButton"
+                            style="@style/CalculatorButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:onClick="keyDigitPadMappingToDisplay"
+                            android:text="@string/zero"
+                            android:textSize="28sp" />
+
+                        <Button
+                            android:id="@+id/switchToChordsButton"
+                            style="@style/CalculatorButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_columnSpan="2"
+                            android:layout_rowWeight="1"
+                            android:onClick="switchToChordsButton"
+                            android:text="@string/switch_to_chords"
+                            android:textSize="28sp" />
+                    </GridLayout>
+
+                    <!-- 4x1 Grid -->
+                    <GridLayout
+                        android:visibility="visible"
+                        android:id="@+id/gridLayout"
+                        android:alignmentMode="alignMargins"
+                        android:columnCount="1"
+                        android:rowCount="4"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="4"
+                        android:useDefaultMargins="true">
+
+                        <ImageButton
+                            android:id="@+id/backspaceButton"
+                            style="@style/CalculatorButton"
+                            android:backgroundTint="?attr/button_clear_color"
+                            android:onClick="backspaceButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            app:srcCompat="@drawable/backspace" />
+
+                        <Button
+                            android:id="@+id/addButton"
+                            style="@style/CalculatorButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:backgroundTint="?attr/button_symbol_color"
+                            android:onClick="addButton"
+                            android:text="@string/add"
+                            android:textSize="28sp" />
+
+                        <Button
+                            android:id="@+id/subtractButton"
+                            style="@style/CalculatorButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:backgroundTint="?attr/button_symbol_color"
+                            android:onClick="subtractButton"
+                            android:text="@string/subtract"
+                            android:textSize="28sp" />
+
+                        <Button
+                            android:id="@+id/equalButton"
+                            style="@style/CalculatorButton"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:backgroundTint="?attr/button_equals_color"
+                            android:onClick="equalsButton"
+                            android:text="@string/equals"
+                            android:textSize="28sp" />
+                    </GridLayout>
+
+                </GridLayout>
+
             </TableLayout>
 
 
@@ -655,7 +924,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.26" />
+        app:layout_constraintGuide_percent="0.40" />
 
     <!--<View
         android:id="@+id/separator"

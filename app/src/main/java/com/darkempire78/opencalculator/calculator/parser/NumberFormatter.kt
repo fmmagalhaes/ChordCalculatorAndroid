@@ -9,7 +9,7 @@ object NumberFormatter {
         numbersList.forEachIndexed { index, number ->
             textWithSeparators = textWithSeparators.replaceFirst(number, numbersWithSeparators[index])
         }
-        return textWithSeparators
+        return text // textWithSeparators
     }
 
     fun extractNumbers(text: String, decimalSeparatorSymbol : String): List<String> {

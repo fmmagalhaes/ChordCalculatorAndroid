@@ -1,5 +1,28 @@
 <resources>
-    <string name="app_name_display">Calculator</string>
+    <string name="app_name_display">Chord Calculator</string>
+
+    <!-- Notes -->
+    <string name="note_c" translatable="false">C</string>
+    <string name="note_d" translatable="false">D</string>
+    <string name="note_e" translatable="false">E</string>
+    <string name="note_f" translatable="false">F</string>
+    <string name="note_g" translatable="false">G</string>
+    <string name="note_a" translatable="false">A</string>
+    <string name="note_b" translatable="false">B</string>
+
+    <!-- Symbols -->
+    <string name="symbol_flat" translatable="false">b</string>
+    <string name="symbol_sharp" translatable="false">#</string>
+    <string name="symbol_minor" translatable="false">m</string>
+    <string name="symbol_slash" translatable="false">/</string>
+    <string name="symbol_dominant" translatable="false">dom</string>
+    <string name="symbol_added" translatable="false">add</string>
+    <string name="symbol_augmented" translatable="false">aug</string>
+    <string name="symbol_diminished" translatable="false">dim</string>
+    <string name="symbol_major" translatable="false">M</string>
+    <string name="symbol_suspended" translatable="false">sus</string>
+    <string name="switch_to_numbers" translatable="false">0-9</string>
+    <string name="switch_to_chords" translatable="false">C-B</string>
 
     <!-- Numbers -->
     <string name="zero" translatable="false">0</string>
@@ -71,6 +94,7 @@
     <!-- App menu -->
     <string name="menu_clear_history">Clear History</string>
     <string name="menu_settings">Settings</string>
+    <string name="menu_howto">How to use</string>
     <string name="menu_about">About</string>
 
     <!-- Settings menu -->
