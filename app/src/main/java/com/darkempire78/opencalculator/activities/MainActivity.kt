@@ -5,15 +5,19 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.TypedValue
 import android.view.HapticFeedbackConstants
 import android.view.MenuItem
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.WindowManager
 import android.view.accessibility.AccessibilityEvent
 import android.widget.Button
@@ -70,10 +74,15 @@ var currentTheme: Int = 0
 class MainActivity : AppCompatActivity() {
     private lateinit var view: View
 
-    private val decimalSeparatorSymbol =
-        DecimalFormatSymbols.getInstance().decimalSeparator.toString()
-    private val groupingSeparatorSymbol =
-        DecimalFormatSymbols.getInstance().groupingSeparator.toString()
+    // [Only OpenCalc]
+    // private val decimalSeparatorSymbol =
+    //    DecimalFormatSymbols.getInstance().decimalSeparator.toString()
+    // private val groupingSeparatorSymbol =
+    //    DecimalFormatSymbols.getInstance().groupingSeparator.toString()
+
+    // [Only ChordsCaculator]
+    private val decimalSeparatorSymbol = " "
+    private val groupingSeparatorSymbol = " "
 
     private var numberingSystem = NumberingSystem.INTERNATIONAL
     private var scientificModeType = ScientificModeTypes.NOT_ACTIVE
@@ -87,6 +96,7 @@ class MainActivity : AppCompatActivity() {
     private var lastHistoryElementId = ""
 
     private var calculationResult = BigDecimal.ZERO
+    private var chordsCalculationResult = ""; // [Only ChordCalculator]
 
     private lateinit var itemTouchHelper: ItemTouchHelper
 
@@ -134,7 +144,7 @@ class MainActivity : AppCompatActivity() {
 
         // Long click to view popup options for double and triple zeroes
         binding.zeroButton.setOnLongClickListener {
-            showPopupMenu(binding.zeroButton)
+            // showPopupMenu(binding.zeroButton) // [Only OpenCalc]
             true
         }
 
@@ -145,7 +155,7 @@ class MainActivity : AppCompatActivity() {
         binding.tableLayout.layoutTransition = lt
 
         // Set decimalSeparator
-        binding.pointButton.setImageResource(if (decimalSeparatorSymbol == ",") R.drawable.comma else R.drawable.dot)
+        // binding.pointButton.setImageResource(if (decimalSeparatorSymbol == ",") R.drawable.comma else R.drawable.dot) // [Only OpenCalc]
 
         // Set history
         historyLayoutMgr = LinearLayoutManager(
@@ -226,7 +236,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Check backspace location preference
-        checkBackspacePosition()
+        // checkBackspacePosition() // [Only OpenCalc]
 
         // Focus by default
         binding.input.requestFocus()
@@ -284,7 +294,8 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                updateResultDisplay()
+                // updateResultDisplay() // [Only OpenCalc]
+                updateResultDisplayChordsMode() // [Only ChordCalculator]
                 textSizeAdjuster.adjustTextSize(binding.input,
                     TextSizeAdjuster.AdjustableTextType.Input
                 )
@@ -421,6 +432,17 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent, null)
     }
 
+    // [Only ChordCalculator]
+    fun openHowto(menuItem: MenuItem) {
+        val intent = Intent(this, HowtoActivity::class.java)
+        startActivity(intent, null)
+    }
+
+    // [Only ChordCalculator]
+    fun chooseTheme(menuItem: MenuItem) {
+        Themes.openDialogThemeSelector(this)
+    }
+    
     fun openDonation(menuItem: MenuItem) {
         DonationDialog(this, layoutInflater).openDonationDialog()
     }
@@ -555,22 +577,22 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun enableOrDisableScientistMode() {
-        if (binding.scientistModeRow2.visibility != View.VISIBLE) {
-            binding.scientistModeRow2.visibility = View.VISIBLE
-            binding.scientistModeRow3.visibility = View.VISIBLE
+        if (binding.scientistModeRow2?.visibility != View.VISIBLE) {
+            binding.scientistModeRow2?.visibility = View.VISIBLE
+            // binding.scientistModeRow3?.visibility = View.VISIBLE // [Only OpenCalc]
             binding.scientistModeSwitchButton?.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24)
             binding.degreeTextView.visibility = View.VISIBLE
             if (isDegreeModeActivated) {
-                binding.degreeButton.text = getString(R.string.radian)
+                binding.degreeButton?.text = getString(R.string.radian)
                 binding.degreeTextView.text = getString(R.string.degree)
             }
             else {
-                binding.degreeButton.text = getString(R.string.degree)
+                binding.degreeButton?.text = getString(R.string.degree)
                 binding.degreeTextView.text = getString(R.string.radian)
             }
         } else {
-            binding.scientistModeRow2.visibility = View.GONE
-            binding.scientistModeRow3.visibility = View.GONE
+            binding.scientistModeRow2?.visibility = View.GONE
+            // binding.scientistModeRow3?.visibility = View.GONE // [Only OpenCalc]
             binding.scientistModeSwitchButton?.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24)
             binding.degreeTextView.visibility = View.GONE
         }
@@ -580,16 +602,46 @@ class MainActivity : AppCompatActivity() {
     private fun toggleDegreeMode() {
         isDegreeModeActivated = !isDegreeModeActivated
         if (isDegreeModeActivated) {
-            binding.degreeButton.text = getString(R.string.radian)
-            binding.degreeTextView.text = getString(R.string.degree)
+            binding.degreeButton?.text = getString(R.string.radian)
+            binding.degreeTextView?.text = getString(R.string.degree)
         }
         else {
-            binding.degreeButton.text = getString(R.string.degree)
-            binding.degreeTextView.text = getString(R.string.radian)
+            binding.degreeButton?.text = getString(R.string.degree)
+            binding.degreeTextView?.text = getString(R.string.radian)
         }
 
         // Flip the variable afterwards
         //isDegreeModeActivated = !isDegreeModeActivated
+    }
+
+    // [Only ChordCalculator]
+    private fun updateResultDisplayChordsMode() {
+        lifecycleScope.launch(Dispatchers.Default) {
+            // Reset text color
+            setErrorColor(false)
+
+            // replacing spaces because of the number grouping separator, which is a space
+            val calculation = binding.input.text.toString()
+            println("[Chords] $calculation")
+            if (calculation != "") {
+                syntax_error = false
+
+                chordsCalculationResult =
+                    Calculator(MyPreferences(this@MainActivity).numberPrecision!!.toInt()).evaluateChordsExpression(calculation)
+
+                withContext(Dispatchers.Main) {
+                    if (chordsCalculationResult != calculation) {
+                        binding.resultDisplay.text = chordsCalculationResult
+                    } else {
+                        binding.resultDisplay.text = ""
+                    }
+                }
+            } else {
+                withContext(Dispatchers.Main) {
+                    binding.resultDisplay.text = ""
+                }
+            }
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -972,29 +1024,29 @@ class MainActivity : AppCompatActivity() {
             isInvButtonClicked = true
 
             // change buttons
-            binding.sineButton.setText(R.string.sineInv)
-            binding.cosineButton.setText(R.string.cosineInv)
-            binding.tangentButton.setText(R.string.tangentInv)
-            binding.naturalLogarithmButton.setText(R.string.naturalLogarithmInv)
-            binding.logarithmButton.setText(R.string.logarithmInv)
+            binding.sineButton?.setText(R.string.sineInv)
+            binding.cosineButton?.setText(R.string.cosineInv)
+            binding.tangentButton?.setText(R.string.tangentInv)
+            binding.naturalLogarithmButton?.setText(R.string.naturalLogarithmInv)
+            binding.logarithmButton?.setText(R.string.logarithmInv)
             binding.log2Button?.setText(R.string.logtwoInv)
             if (MyPreferences(this).addModuloButton) {
-                binding.squareButton.setText(R.string.squareInvModuloVersion)
+                binding.squareButton?.setText(R.string.squareInvModuloVersion)
             } else {
-                binding.squareButton.setText(R.string.squareInv)
+                binding.squareButton?.setText(R.string.squareInv)
             }
 
         } else {
             isInvButtonClicked = false
 
             // change buttons
-            binding.sineButton.setText(R.string.sine)
-            binding.cosineButton.setText(R.string.cosine)
-            binding.tangentButton.setText(R.string.tangent)
-            binding.naturalLogarithmButton.setText(R.string.naturalLogarithm)
-            binding.logarithmButton.setText(R.string.logarithm)
+            binding.sineButton?.setText(R.string.sine)
+            binding.cosineButton?.setText(R.string.cosine)
+            binding.tangentButton?.setText(R.string.tangent)
+            binding.naturalLogarithmButton?.setText(R.string.naturalLogarithm)
+            binding.logarithmButton?.setText(R.string.logarithm)
             binding.log2Button?.setText(R.string.logtwo)
-            binding.squareButton.setText(R.string.square)
+            binding.squareButton?.setText(R.string.square)
         }
     }
 
@@ -1003,6 +1055,20 @@ class MainActivity : AppCompatActivity() {
         binding.input.setText("")
         binding.resultDisplay.text = ""
         isStillTheSameCalculation_autoSaveCalculationWithoutEqualOption = false
+    }
+
+    // [Only ChordCalculator]
+    fun switchToChordsButton(view: View) {
+        keyVibration(view)
+        binding.leftGridLayoutNumbers?.visibility = GONE
+        binding.leftGridLayoutChords?.visibility = VISIBLE
+    }
+
+    // [Only ChordCalculator]
+    fun switchToNumbersButton(view: View) {
+        keyVibration(view)
+        binding.leftGridLayoutChords?.visibility = GONE
+        binding.leftGridLayoutNumbers?.visibility = VISIBLE
     }
 
     @SuppressLint("SetTextI18n")
@@ -1016,7 +1082,8 @@ class MainActivity : AppCompatActivity() {
 
             if (calculation != "") {
 
-                val resultString = calculationResult.toString()
+                // val resultString = calculationResult.toString() // [Only OpenCalc]
+                val resultString = chordsCalculationResult // [Only ChordCalculator]
                 var formattedResult = NumberFormatter.format(
                     resultString.replace(".", decimalSeparatorSymbol),
                     decimalSeparatorSymbol,
@@ -1062,7 +1129,11 @@ class MainActivity : AppCompatActivity() {
                         binding.input.isCursorVisible = false
 
                         // Clear resultDisplay
-                        binding.resultDisplay.text = ""
+                        // binding.resultDisplay.text = "" // [Only OpenCalc]
+                        // [Chords] No need to clear, because every equation produces a new result
+                        // when pressing equals, unlike a number equation
+                        // e.g. CEG = C = CEG = C = CEG etc
+                        // different from 1x2 = 2, period
                     }
 
                     if (calculation != formattedResult) {
@@ -1112,12 +1183,14 @@ class MainActivity : AppCompatActivity() {
                             }
                         }
                     }
-                    isEqualLastAction = true
+                    // isEqualLastAction = true // [Only OpenCalc]
+                    // [Chords] this variable is used to start writing from scratch after when press equal
+                    // In the Chord Calculator, we'll not use this behavior
                 } else {
                     withContext(Dispatchers.Main) {
                         if (syntax_error) {
                             setErrorColor(true)
-                            binding.resultDisplay.text = getString(R.string.syntax_error)
+                            // binding.resultDisplay.text = getString(R.string.syntax_error) // [Only OpenCalc]
                         } else if (domain_error) {
                             setErrorColor(true)
                             binding.resultDisplay.text = getString(R.string.domain_error)
@@ -1189,6 +1262,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // [Only ChordCalculator]
+    fun spaceButton(view: View) {
+        updateDisplay(view, " ")
+    }
+
     fun backspaceButton(view: View) {
         keyVibration(view)
 
@@ -1206,7 +1284,7 @@ class MainActivity : AppCompatActivity() {
         if (cursorPosition != 0 && textLength != 0) {
             // Check if it is a function to delete
             val functionsList =
-                listOf("cos⁻¹(", "sin⁻¹(", "tan⁻¹(", "cos(", "sin(", "tan(", "ln(", "log(", "log₂(", "exp(")
+                listOf("cos⁻¹(", "sin⁻¹(", "tan⁻¹(", "cos(", "sin(", "tan(", "ln(", "log(", "log₂(", "exp(", "sus", "aug", "dim", "dom", "add", "min", "Maj", "maj")
             for (function in functionsList) {
                 val leftPart = binding.input.text.subSequence(0, cursorPosition).toString()
                 if (leftPart.endsWith(function)) {
@@ -1222,7 +1300,7 @@ class MainActivity : AppCompatActivity() {
             if (!isFunction) {
                 // remove the grouping separator
                 val leftPart = binding.input.text.subSequence(0, cursorPosition).toString()
-                val leftPartWithoutSpaces = leftPart.replace(groupingSeparatorSymbol, "")
+                val leftPartWithoutSpaces = leftPart //.replace(groupingSeparatorSymbol, "") // [Only OpenCalc]
                 functionLength = leftPart.length - leftPartWithoutSpaces.length
 
                 newValue = leftPartWithoutSpaces.subSequence(0, leftPartWithoutSpaces.length - 1)
@@ -1260,26 +1338,27 @@ class MainActivity : AppCompatActivity() {
     }
 
     // Check to see if the location of the backspace button should be to the left or default
-    private fun checkBackspacePosition() {
-        if (MyPreferences(this).moveBackButtonLeft
-            && resources.configuration.orientation != Configuration.ORIENTATION_LANDSCAPE) {
-            val row = findViewById<TableRow>(R.id.delRow)
-            val backButton = row.getChildAt(2)
-            if (backButton.id == R.id.backspaceButton) {
-                row.removeViewAt(2)
-                row.addView(backButton, 0)
-            }
-        } else if (!MyPreferences(this).moveBackButtonLeft
-            && resources.configuration.orientation != Configuration.ORIENTATION_LANDSCAPE) {
-            val row = findViewById<TableRow>(R.id.delRow)
-            val backButton = row.getChildAt(0)
-            // Only move if backspace is in position zero in row.
-            if (backButton.id == R.id.backspaceButton) {
-                row.removeViewAt(0)
-                row.addView(backButton, 2)
-            }
-        }
-    }
+// [Only OpenCalc] - We don't have the back button at the bottom in ChordCalculator
+//    private fun checkBackspacePosition() {
+//        if (MyPreferences(this).moveBackButtonLeft
+//            && resources.configuration.orientation != Configuration.ORIENTATION_LANDSCAPE) {
+//            val row = findViewById<TableRow>(R.id.delRow)
+//            val backButton = row.getChildAt(2)
+//            if (backButton.id == R.id.backspaceButton) {
+//                row.removeViewAt(2)
+//                row.addView(backButton, 0)
+//            }
+//        } else if (!MyPreferences(this).moveBackButtonLeft
+//            && resources.configuration.orientation != Configuration.ORIENTATION_LANDSCAPE) {
+//            val row = findViewById<TableRow>(R.id.delRow)
+//            val backButton = row.getChildAt(0)
+//            // Only move if backspace is in position zero in row.
+//            if (backButton.id == R.id.backspaceButton) {
+//                row.removeViewAt(0)
+//                row.addView(backButton, 2)
+//            }
+//        }
+//    }
 
     fun scientistModeSwitchButton(view: View) {
         enableOrDisableScientistMode()
@@ -1331,16 +1410,16 @@ class MainActivity : AppCompatActivity() {
         // Split the parentheses button (if option is enabled)
         if (MyPreferences(this).splitParenthesisButton) {
             // Hide the AC button
-            binding.clearButton.visibility = View.GONE
-            binding.parenthesesButton.visibility = View.GONE
+            binding.clearButton?.visibility = View.GONE
+            binding.parenthesesButton?.visibility = View.GONE
 
             // Display the left & right parenthesis buttons
             binding.leftParenthesisButton?.visibility = View.VISIBLE
             binding.rightParenthesisButton?.visibility = View.VISIBLE
         } else {
             // Display the AC button
-            binding.clearButton.visibility = View.VISIBLE
-            binding.parenthesesButton.visibility = View.VISIBLE
+            binding.clearButton?.visibility = View.VISIBLE
+            binding.parenthesesButton?.visibility = View.VISIBLE
 
             // Hide the left & right parenthesis buttons
             binding.leftParenthesisButton?.visibility = View.GONE
@@ -1375,7 +1454,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Check backspace location preference
-        checkBackspacePosition()
+        // checkBackspacePosition() // [Only OpenCalc]
 
         // Disable the keyboard on display EditText
         binding.input.showSoftInputOnFocus = false
@@ -1406,26 +1485,26 @@ class MainActivity : AppCompatActivity() {
 
     private fun enableOrDisableScientistMode(isEnabled: Boolean) {
         val imageId = if (isEnabled) R.drawable.ic_baseline_keyboard_arrow_up_24 else R.drawable.ic_baseline_keyboard_arrow_down_24
-        binding.scientistModeRow1?.isVisible = true
-        binding.scientistModeRow2.isVisible = isEnabled
-        binding.scientistModeRow3.isVisible = isEnabled
+        // binding.scientistModeRow1?.isVisible = true // [Only OpenCalc]
+        binding.scientistModeRow2?.isVisible = isEnabled
+        binding.scientistModeRow3?.isVisible = isEnabled
         binding.degreeTextView.visibility = View.VISIBLE
         binding.scientistModeSwitchButton?.setImageResource(imageId)
 
         if (isDegreeModeActivated) {
-            binding.degreeButton.text = getString(R.string.radian)
+            binding.degreeButton?.text = getString(R.string.radian)
             binding.degreeTextView.text = getString(R.string.degree)
         } else {
-            binding.degreeButton.text = getString(R.string.degree)
+            binding.degreeButton?.text = getString(R.string.degree)
             binding.degreeTextView.text = getString(R.string.radian)
         }
 
     }
 
     private fun hideScientificMode() {
-        binding.scientistModeRow1?.visibility = View.GONE
-        binding.scientistModeRow2.visibility = View.GONE
-        binding.scientistModeRow3.visibility = View.GONE
+        // binding.scientistModeRow1?.visibility = View.GONE // [Only OpenCalc]
+        binding.scientistModeRow2?.visibility = View.GONE
+        binding.scientistModeRow3?.visibility = View.GONE
         binding.degreeTextView.visibility = View.GONE
     }
 

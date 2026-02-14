@@ -18,7 +18,8 @@ object NumberFormatter {
             newString.append(item)
         }
 
-        return newString.toString()
+        // return newString.toString() // [Only OpenCalc]
+        return text // textWithSeparators
     }
 
     // This function was changed to extract all elements from the input string, not just numbers.

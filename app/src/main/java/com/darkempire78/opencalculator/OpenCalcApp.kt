@@ -2,11 +2,15 @@ package com.darkempire78.opencalculator
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate.*
+import androidx.core.os.LocaleListCompat
 
 class OpenCalcApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        // Force English locale // [Only OpenCalc]
+        setApplicationLocales(LocaleListCompat.forLanguageTags("en"))
 
         // if the theme is overriding the system, the first creation doesn't work properly
         val forceDayNight = MyPreferences(this).forceDayNight
