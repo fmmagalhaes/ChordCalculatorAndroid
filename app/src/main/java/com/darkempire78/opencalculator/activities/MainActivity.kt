@@ -1382,7 +1382,7 @@ class MainActivity : AppCompatActivity() {
             // scientific mode enabled by default in portrait mode (if option enabled)
             val storedType = MyPreferences(this).scientificMode
             scientificModeType = ScientificMode.getScientificModeType(storedType)
-            manageScientificMode(scientificModeType)
+            // manageScientificMode(scientificModeType) // [Only OpenCalc]
         }
 
         fixView()
